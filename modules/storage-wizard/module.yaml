@@ -1,0 +1,25 @@
+module:
+  id: storage-wizard
+  name: Storage Wizard TRD Parser
+  category_id: storage
+  version: 1.0.0
+  status: published
+  visibility: organization
+  prompts:
+    system: prompts/system.md
+    user_template: prompts/user-template.md
+  schemas:
+    ir: schemas/ir.schema.json
+    output: schemas/output.schema.json
+  tools:
+    allowed:
+      - id: text-stats
+        version: 1.0.0
+  validators:
+    - id: json-schema
+      version: 1.0.0
+    - id: storage-business-rules
+      version: 1.0.0
+  execution_policy:
+    human_review_required: true
+    max_retries: 2

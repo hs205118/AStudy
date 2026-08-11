@@ -1,0 +1,13 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      TRD_DATABASE_URL: sqlite:////app/data/trd_agent.db
+      TRD_ARTIFACT_ROOT: /app/data/artifacts
+      TRD_MODULE_ROOT: /app/modules
+    volumes:
+      - trd_data:/app/data
+volumes:
+  trd_data:

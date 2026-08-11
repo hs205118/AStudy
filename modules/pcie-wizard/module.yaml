@@ -1,0 +1,18 @@
+module:
+  id: pcie-wizard
+  name: PCIe Wizard TRD Parser
+  category_id: pcie
+  version: 1.0.0
+  status: draft
+  visibility: organization
+  prompts:
+    system: prompts/system.md
+    user_template: prompts/user-template.md
+  schemas:
+    ir: schemas/ir.schema.json
+    output: schemas/output.schema.json
+  tools:
+    allowed: []
+  validators:
+    - id: json-schema
+      version: 1.0.0

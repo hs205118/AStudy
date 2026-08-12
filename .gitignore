@@ -8,3 +8,8 @@ data/
 dist/
 build/
 *.egg-info/
+.avf/
+validation/node_modules/
+validation/test-results/
+validation/playwright-report/
+*.zip

@@ -91,3 +91,20 @@ pytest
 - NoopMCPClient → 受治理的 MCP Gateway
 - API Key 示例鉴权 → OIDC、RBAC、ABAC
 - 单进程锁 → 分布式锁和幂等键
+
+## Windows 一键自检（AVF）
+
+```powershell
+.\self-test.ps1
+```
+
+自动创建隔离环境、安装依赖、启动服务、执行环境/API/工作流自检，并生成：
+
+- `.avf/reports/<run-id>/human-report/index.html`
+- `.avf/reports/<run-id>/AStudy_AVF_<run-id>_<status>.zip`
+
+完整测试：
+
+```powershell
+.\self-test.ps1 -Suite full
+```

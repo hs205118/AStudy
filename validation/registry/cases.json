@@ -1,0 +1,13 @@
+{"schema_version":"1.0","cases":[
+{"id":"ENV-001","module":"Environment","title":"Python 3.11+","priority":"P0"},
+{"id":"ENV-002","module":"Environment","title":"Required packages import","priority":"P0"},
+{"id":"APP-001","module":"Application","title":"Application imports","priority":"P0"},
+{"id":"APP-002","module":"Application","title":"Isolated database initializes","priority":"P0"},
+{"id":"APP-003","module":"Application","title":"Uvicorn starts and becomes ready","priority":"P0"},
+{"id":"API-001","module":"API","title":"Health endpoint","priority":"P0"},
+{"id":"API-002","module":"API","title":"OpenAPI endpoint","priority":"P0"},
+{"id":"MOD-001","module":"Module","title":"Storage Wizard discovered","priority":"P0"},
+{"id":"WF-001","module":"Workflow","title":"Create and execute run","priority":"P0"},
+{"id":"WF-002","module":"Workflow","title":"Generate final artifact","priority":"P0"},
+{"id":"UI-001","module":"Playwright","title":"Browser smoke suite","priority":"P1"}
+]}

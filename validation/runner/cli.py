@@ -59,12 +59,23 @@ def main():
    run('WF-002',wf2)
   if any(c['id']=='UI-001' for c in selected):
    def ui():
-    npm=shutil.which('npm');assert npm,'npm not installed';env=os.environ.copy();env['AVF_BASE_URL']=base;r=subprocess.run([npm,'test'],cwd=ROOT/'validation',env=env,capture_output=True,text=True,timeout=180);(logs/'playwright.log').write_text(r.stdout+'\n'+r.stderr);assert r.returncode==0,'Playwright failed';return {'log':'runtime-logs/playwright.log'}
+    npm=shutil.which('npm.cmd') or shutil.which('npm')
+    assert npm,'npm or npm.cmd is not installed'
+    env=os.environ.copy();env['AVF_BASE_URL']=base
+    command=[npm,'test']
+    r=subprocess.run(command,cwd=ROOT/'validation',env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,encoding='utf-8',errors='replace',timeout=180,shell=False)
+    stdout=r.stdout or '';stderr=r.stderr or ''
+    log_path=logs/'playwright.log'
+    log_path.write_text(f"Command: {command!r}\nExit code: {r.returncode}\n\n===== STDOUT =====\n{stdout}\n\n===== STDERR =====\n{stderr}\n",encoding='utf-8',errors='replace')
+    assert r.returncode==0,f'Playwright failed with exit code {r.returncode}; see {log_path}'
+    return {'exit_code':r.returncode,'stdout_length':len(stdout),'stderr_length':len(stderr),'log':'runtime-logs/playwright.log'}
    run('UI-001',ui)
  finally:
   if proc and proc.poll() is None:proc.terminate();proc.wait(timeout=8)
   if fh:fh.close()
- status='PASSED' if all(x['status']=='PASSED' for x in results) else 'FAILED';code=0 if status=='PASSED' else 30
+ failures=[x for x in results if x['status']!='PASSED']
+ status='PASSED' if not failures else 'FAILED'
+ code=0 if not failures else (30 if any(x.get('priority')=='P0' for x in failures) else 20)
  summary={'project':'AStudy','run_id':rid,'status':status,'suite':a.suite,'repository':'https://github.com/hs205118/AStudy.git','environment':{'os':platform.platform(),'python':sys.version},'counts':{'total':len(results),'passed':sum(x['status']=='PASSED' for x in results),'failed':sum(x['status']!='PASSED' for x in results)},'exit_code':code}
  for n,v in [('summary.json',summary),('cases.json',results),('failures.json',[x for x in results if x['status']!='PASSED'])]:(raw/n).write_text(json.dumps(v,indent=2,ensure_ascii=False))
  mods=sorted(set(x['module'] for x in results));nav=''.join(f'<button onclick="f(\'{m}\')">{m}</button>' for m in mods);rows=''.join(f'<article data-m="{x["module"]}" class="{x["status"]}"><h3>{x["id"]} {html.escape(x["title"])}</h3><b>{x["status"]}</b><p>{html.escape(x["message"])}</p><details><pre>{html.escape(json.dumps(x,indent=2,ensure_ascii=False))}</pre></details></article>' for x in results)

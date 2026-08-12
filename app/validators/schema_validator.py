@@ -1,15 +1,30 @@
+"""教学注释版：app/validators/schema_validator.py。注释解释本文件每个主要语句的意图，不改变运行逻辑。"""
+# [教学注释 L1] 导入本行后续代码依赖的类型、框架或标准库能力。
 from typing import Any
+# [教学注释 L2] 导入本行后续代码依赖的类型、框架或标准库能力。
 from jsonschema import Draft202012Validator
+# [教学注释 L3] 导入本行后续代码依赖的类型、框架或标准库能力。
 from app.domain.enums import Severity
+# [教学注释 L4] 导入本行后续代码依赖的类型、框架或标准库能力。
 from app.domain.schemas import Finding
 
+# [教学注释 L6] 定义一个职责明确的类型，用于封装数据结构、协议或业务能力。
 class JsonSchemaValidator:
+    # [教学注释 L7] 执行当前步骤；其作用应结合所在函数的职责和上下游调用关系理解。
     id = "json-schema"
+    # [教学注释 L8] 执行当前步骤；其作用应结合所在函数的职责和上下游调用关系理解。
     version = "1.0.0"
+    # [教学注释 L9] 定义可复用函数；参数是输入契约，返回值是调用方可消费的结果。
     def __init__(self, schema: dict[str, Any]):
+        # [教学注释 L10] 把依赖或运行状态保存到当前对象，供其他方法复用。
         self.schema = schema
+    # [教学注释 L11] 定义可复用函数；参数是输入契约，返回值是调用方可消费的结果。
     def validate(self, payload: dict[str, Any], context: dict[str, Any]) -> list[Finding]:
+        # [教学注释 L12] 执行当前步骤；其作用应结合所在函数的职责和上下游调用关系理解。
         findings = []
+        # [教学注释 L13] 遍历集合中的每个元素，逐项执行相同规则。
         for error in sorted(Draft202012Validator(self.schema).iter_errors(payload), key=lambda e: list(e.path)):
+            # [教学注释 L14] 执行当前步骤；其作用应结合所在函数的职责和上下游调用关系理解。
             findings.append(Finding(rule_id="schema", severity=Severity.ERROR, message=error.message, location="/" + "/".join(map(str, error.path))))
+        # [教学注释 L15] 将本阶段结果返回给调用方，不继续在当前层处理后续职责。
         return findings

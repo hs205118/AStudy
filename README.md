@@ -92,19 +92,17 @@ pytest
 - API Key 示例鉴权 → OIDC、RBAC、ABAC
 - 单进程锁 → 分布式锁和幂等键
 
-## Windows 一键自检（AVF）
+## 教学注释版代码导读
 
-```powershell
-.\self-test.ps1
+本版本在 Python 源码中加入高密度 `[教学注释]`，并新增：
+
+```text
+docs/code-reading/00_START_HERE.md
+docs/code-reading/01_REQUEST_TO_FINAL_ARTIFACT.md
+docs/code-reading/02_MEMORY_PROMPT_REFERENCE.md
+docs/code-reading/03_SECURITY_BOUNDARIES.md
+docs/code-reading/04_TOOLS_AND_MCP.md
+docs/code-reading/05_NEXT_ARCHITECTURE_STEPS.md
 ```
 
-自动创建隔离环境、安装依赖、启动服务、执行环境/API/工作流自检，并生成：
-
-- `.avf/reports/<run-id>/human-report/index.html`
-- `.avf/reports/<run-id>/AStudy_AVF_<run-id>_<status>.zip`
-
-完整测试：
-
-```powershell
-.\self-test.ps1 -Suite full
-```
+请从 `00_START_HERE.md` 开始，按其中顺序阅读和调试。
